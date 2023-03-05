@@ -9,8 +9,8 @@
       "name": "Invoice ID",
       "null_percentage": 0,
       "type": "Formula",
-      "value": "concat(random(100,999),'-',random(10,99),'-',random(1000,9999))",
-      "formula": "concat(random(100, 999), \"-\", random(10,99), \"-\", random(100,999))"
+      "value": "concat(pad(random(1,999), 3,'0','left'),'-', pad(random(10,99), 2, '0', 'left'),'-', pad(random(1000,9999), 4, '0', 'left'))",
+      "formula": ""
     },
     {
       "name": "Branch",
@@ -47,7 +47,13 @@
     {
       "name": "Gender",
       "null_percentage": 0,
-      "type": "Gender",
+      "type": "Custom List",
+      "values": [
+        "Male",
+        "Female"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
       "formula": null
     },
     {
@@ -55,7 +61,7 @@
       "null_percentage": 0,
       "type": "Custom List",
       "values": [
-        "ealth and beauty",
+        "Health and beauty",
         "Electronic accessories",
         "Home and lifestyle",
         "Sports and travel",
@@ -71,6 +77,73 @@
       "null_percentage": 0,
       "type": "Formula",
       "value": "round(random(10.00,100.00),2)",
+      "formula": null
+    },
+    {
+      "name": "Quantity",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "random(1,10)",
+      "formula": null
+    },
+    {
+      "name": "Tax 5%",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "round(field('Quantity') * field('Unit price') * 0.05, 2)",
+      "formula": null
+    },
+    {
+      "name": "Total",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "field('Quantity') * field('Unit price') + field('Tax 5%')",
+      "formula": null
+    },
+    {
+      "name": "Date",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "request_params['date']",
+      "formula": null
+    },
+    {
+      "name": "Time",
+      "null_percentage": 0,
+      "type": "Time",
+      "min": "10:00 AM",
+      "max": "8:59 PM",
+      "format": "%-H:%M",
+      "formula": null
+    },
+    {
+      "name": "cogs",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "round(field('Total') * 0.9524, 2)",
+      "formula": null
+    },
+    {
+      "name": "gross margin percentage",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "round((field('Total') - field('cogs')) / field('Total') * 100, 2)",
+      "formula": null
+    },
+    {
+      "name": "gross income",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "field('Total') - field('cogs')",
+      "formula": null
+    },
+    {
+      "name": "Rating",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 4,
+      "max": 10,
+      "decimals": 1,
       "formula": null
     }
   ]
