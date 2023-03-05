@@ -1,0 +1,77 @@
+{
+  "id": 501316,
+  "num_rows": 1000,
+  "file_format": "csv",
+  "name": "mock sales data",
+  "include_header": true,
+  "columns": [
+    {
+      "name": "Invoice ID",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "concat(random(100,999),'-',random(10,99),'-',random(1000,9999))",
+      "formula": "concat(random(100, 999), \"-\", random(10,99), \"-\", random(100,999))"
+    },
+    {
+      "name": "Branch",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "A",
+        "B",
+        "C"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
+      "name": "City",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "if field('Branch') == 'A' then 'Yangon' elseif field('Branch') == 'B' then 'Mandalay' else 'Naypyitaw' end",
+      "formula": null
+    },
+    {
+      "name": "Customer type",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "Member",
+        "Normal"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
+      "name": "Gender",
+      "null_percentage": 0,
+      "type": "Gender",
+      "formula": null
+    },
+    {
+      "name": "Product line",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "ealth and beauty",
+        "Electronic accessories",
+        "Home and lifestyle",
+        "Sports and travel",
+        "Food and beverages",
+        "Fashion accessories"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
+      "name": "Unit price",
+      "null_percentage": 0,
+      "type": "Formula",
+      "value": "round(random(10.00,100.00),2)",
+      "formula": null
+    }
+  ]
+}
