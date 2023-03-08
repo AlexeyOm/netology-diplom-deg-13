@@ -3,5 +3,5 @@
 База данных для хранения данных в нормализированной форме и DSS - BigQuery
 Дашборды на облачной Tableau в GCP
 Оркестрация Cloud Composer на базе Airflow
-?Data Quality?
+Data Quality - GreatExpectations
 Данные получаются от сервиса https://www.mockaroo.com/, формат соответствует образцу из задания к диплому
