@@ -11,7 +11,7 @@ default_args = {
 }
 
 dag = DAG(
-    "GX_checkpoint_run",
+    "GX_checkpoint_run_13",
     default_args=default_args,
     description="running GX checkpoint",
     schedule_interval=None,
@@ -21,8 +21,9 @@ dag = DAG(
 # priority_weight has type int in Airflow DB, uses the maximum.
 t1 = BashOperator(
     task_id="checkpoint_run",
-    bash_command="(cd /home/airflow/gcsfuse/great_expectations/ ; great_expectations --v3-api checkpoint run gcs_checkpoint ) ",
+    bash_command="(pwd; cd /home/airflow/gcsfuse/actual_mount_path/great_expectations/; great_expectations --v3-api checkpoint run gcs_checkpoint ) ",
     dag=dag,
     depends_on_past=False,
     priority_weight=2**31 - 1,
+    cwd=dag.folder,
 )
