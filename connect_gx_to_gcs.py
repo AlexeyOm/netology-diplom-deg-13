@@ -41,6 +41,9 @@ validator.expect_column_values_to_be_between(
 validator.save_expectation_suite(discard_failed_expectations=False)
 
 
+
+
+
 my_checkpoint_name = "gcs_checkpoint"
 checkpoint_config = f"""
 name: {my_checkpoint_name}
@@ -51,6 +54,12 @@ validations:
   - batch_request:
       datasource_name: my_gcs_datasource
       data_connector_name: default_inferred_data_connector_name
-      data_asset_name: 
+      data_asset_name: "data/supermarket_sales"
     expectation_suite_name: test_gcs_suite
 """
+
+context.add_or_update_checkpoint(**yaml.load(checkpoint_config))
+
+checkpoint_result = context.run_checkpoint(
+    checkpoint_name=my_checkpoint_name,
+)
