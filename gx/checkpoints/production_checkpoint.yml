@@ -18,7 +18,9 @@ action_list:
       class_name: UpdateDataDocsAction
       site_names: []
 evaluation_parameters: {}
-runtime_configuration: {}
+runtime_configuration:
+  result_format: COMPLETE
+  return_unexpected_index_query: false
 validations:
   - batch_request:
       datasource_name: my_gcs_datasource
