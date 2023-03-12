@@ -15,31 +15,31 @@ CREATE TABLE netologyds.sales.sales_nf ( -- таблица инвойсов
 
 
 CREATE TABLE netologyds.sales.cities ( -- справочник городов  
-	city_id STRING, -- идентификатор города  
+	city_id INT64, -- идентификатор города  
 	city_name STRING -- название города  
 );  
 
 CREATE TABLE netologyds.sales.branches ( -- справочник подразделений  
-	branch_id STRING, -- идентификатор подразделения  
+	branch_id INT64, -- идентификатор подразделения  
 	branch_name STRING -- название подразделения  
 );  
 
 CREATE TABLE netologyds.sales.payment_types ( -- справочник типов платежных средств
-	payment_type_id STRING, -- идентификатор платежного средства  
+	payment_type_id INT64, -- идентификатор платежного средства  
 	payment_type_name STRING -- название платежного средства  
 );  
 
 CREATE TABLE netologyds.sales.genders ( -- справочник гендеров  
-	gender_id STRING, -- идентификатор гендера  
+	gender_id INT64, -- идентификатор гендера  
 	gender_name STRING -- название гендера  
 );
 
 CREATE TABLE netologyds.sales.member_statuses ( -- справочник статусов участника программы лояльности
-	member_status_id STRING, -- идентификатор участника  
+	member_status_id INT64, -- идентификатор участника  
 	member_status_name STRING -- название статуса участника программы лояльности  
 );  
 
 CREATE TABLE netologyds.sales.product_lines ( -- справочник групп товаров  
-	member_status_id STRING, -- идентификатор группы товаров  
+	member_status_id INT64, -- идентификатор группы товаров  
 	member_status_name STRING -- название группы товаров    
-);  
+);
