@@ -17,6 +17,10 @@ action_list:
     action:
       class_name: UpdateDataDocsAction
       site_names: []
+  - name: store_results_to_bq
+    action:
+      class_name: LogToDatabaseResultsAction
+      module_name: write_results_to_bq
 evaluation_parameters: {}
 runtime_configuration:
   result_format: COMPLETE
