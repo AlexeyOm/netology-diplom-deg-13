@@ -40,6 +40,6 @@ CREATE TABLE netologyds.sales.member_statuses ( -- справочник стат
 );  
 
 CREATE TABLE netologyds.sales.product_lines ( -- справочник групп товаров  
-	member_status_id INT64, -- идентификатор группы товаров  
-	member_status_name STRING -- название группы товаров    
+	product_line_id INT64, -- идентификатор группы товаров  
+	product_line_name STRING -- название группы товаров    
 );
