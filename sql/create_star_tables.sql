@@ -40,7 +40,7 @@ select
 from (
 	select * 
 	from unnest(
-		GENERATE_TIMESTAMP_ARRAY('2016-10-05 08:00:00', '2016-10-05 20:00:00', interval 1 minute))
+		GENERATE_TIMESTAMP_ARRAY('2016-10-05 08:00:00', '2016-10-05 22:00:00', interval 1 minute))
 		as t_stamp
     );
 
