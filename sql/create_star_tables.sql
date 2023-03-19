@@ -1,5 +1,4 @@
 create table netologyds.sales.fact_sales ( -- таблица фактов по продажам
-  id int64, -- суррогатный ключ  
   invoice_id string, -- идентификатор инвойса
   branch int64, -- идентификатор подразделения
   city int64, -- идентификатор города
