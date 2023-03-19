@@ -47,18 +47,18 @@ from (
 -- измерение дат с гранулярностью день
 create table sales.dim_days as
 select
-  format_date('%f', d) as id,
+  format_date('%F', d) as id,
   d as full_date,
   extract(year from d) as year,
   extract(isoweek from d) as year_week,
   extract(dayofyear from d) as year_day,
-  format_date('%q', d) as quarter,
+  format_date('%Q', d) as quarter,
   extract(month from d) as month,
-  format_date('%b', d) as month_name,
+  format_date('%B', d) as month_name,
   mod(cast (format_date('%w', d) as int64)+6, 7)+1 as week_day,
-  format_date('%a', d) as day_name,
-  (case when format_date('%a', d) in ('sunday', 'saturday') then 0 else 1 end) as is_weekday,
-  (case when format_date('%a', d) in ('sunday', 'saturday') then 1 else 0 end) as is_weekend,
+  format_date('%A', d) as day_name,
+  (case when format_date('%A', d) in ('Sunday', 'Saturday') then 0 else 1 end) as is_weekday,
+  (case when format_date('%A', d) in ('Sunday', 'Saturday') then 1 else 0 end) as is_weekend,
   (case 
 	  when d in (select holiday from sales.holidays) then 
 	  	1 
