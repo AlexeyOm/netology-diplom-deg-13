@@ -1,5 +1,5 @@
 from datetime import timedelta
-from datetime import date
+from datetime import datetime
 
 import airflow
 from airflow import DAG
@@ -9,15 +9,8 @@ from airflow.contrib.operators.bigquery_operator import BigQueryOperator
 from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
 from airflow.operators.email_operator import EmailOperator
 
-
 from load_valid_to_bq_callable import get_good_rows_load_to_bq
 
-
-default_args = {
-    "start_date": airflow.utils.dates.days_ago(0),
-    "retries": 0,
-    "retry_delay": timedelta(days=1),
-}
 
 default_args = {
     'owner': 'airflow',
@@ -32,9 +25,9 @@ default_args = {
 
 
 
-dag = DAG('etl_pipeline', default_args=default_args, schedule_interval=timedelta(days=1))
+dag = DAG('etl_pipeline_4', start_date=datetime(2023, 3, 19), default_args=default_args, schedule_interval=timedelta(days=1))
 
-# Raw to nf and fact
+# очистим данные за сегодня, если такие остались от неудачной предыдущей попытки
 rollback_today = BigQueryOperator(
     task_id='clean_todays_data_in_tables_if_any',
     use_legacy_sql=False,
@@ -45,7 +38,7 @@ rollback_today = BigQueryOperator(
 #загрузка данных по продажам по API
 download_from_mockaroo = BashOperator(
     task_id="download_from_mockaroo",
-    bash_command=f"curl -o  /home/airflow/gcs/data/supermarket_sales.csv -L 'https://my.api.mockaroo.com/mock_sales_data.csv?key=78343830&date={{ ds }}' ",  # put space in between single quote and double quote 
+    bash_command="curl -o  /home/airflow/gcs/data/supermarket_sales.csv -L 'https://my.api.mockaroo.com/mock_sales_data.csv?key=78343830&date={{ ds }}' ",  # put space in between single quote and double quote 
     dag=dag,
 )
 
@@ -139,7 +132,7 @@ move_file = LocalFilesystemToGCSOperator(
     src='/home/airflow/gcs/data/supermarket_sales.csv',
     dst='sample-sales-23/archive/{{ ds_nodash }}.csv',
     bucket='sample-sales-23',
-    google_cloud_storage_conn_id='google_cloud_default',
+    # google_cloud_storage_conn_id='google_cloud_default',
     dag=dag
 )
 
@@ -160,24 +153,22 @@ failure_email = EmailOperator(
 )
 
 
- rollback_today
-    >> download_from_mockaroo
-    >> checkpoint_run
-    >> load_valid_to_bq
-    >> [
-        sales_branches,
-        sales_cities,
-        sales_product_lines,
-        sales_payment_types,
-        sales_member_statuses,
-        sales_genders,
-    ]
-    >> [raw_to_nf, raw_to_fact]
-    >> move_file
-    
-raw_to_nf >> success_email
-raw_to_fact >> success_email
+rollback_today >> download_from_mockaroo >> checkpoint_run >> load_valid_to_bq
+load_valid_to_bq >> [sales_branches, sales_cities, sales_product_lines, sales_payment_types, sales_member_statuses, sales_genders]
 
+sales_branches >> [raw_to_nf, raw_to_fact]
+sales_cities >> [raw_to_nf, raw_to_fact]
+sales_product_lines >> [raw_to_nf, raw_to_fact]
+sales_payment_types >> [raw_to_nf, raw_to_fact]
+sales_member_statuses >> [raw_to_nf, raw_to_fact]
+sales_genders >> [raw_to_nf, raw_to_fact] 
+
+raw_to_nf >> move_file
+raw_to_fact >> move_file
+
+move_file >> success_email
+
+download_from_mockaroo >> failure_email
 sales_branches >> failure_email
 sales_cities >> failure_email
 sales_product_lines >> failure_email
