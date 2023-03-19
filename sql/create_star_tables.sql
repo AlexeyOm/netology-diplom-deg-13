@@ -1,3 +1,20 @@
+create table netologyds.sales.fact_sales ( -- таблица фактов по продажам
+  id int64, -- суррогатный ключ  
+  invoice_id string, -- идентификатор инвойса
+  branch int64, -- идентификатор подразделения
+  city int64, -- идентификатор города
+  product_line int64, -- идентификатор группы товаров
+  payment_type int64, -- идентификатор платежного средства
+  member_status int64, -- идентификатор типа участия в программе лояльности
+  gender int64, -- идентификатор гендера
+  transaction_date int64, -- идентификатор дня
+  transaction_time int64, -- идентификатор времени
+  amount int64, -- количество купленного товара в штуках
+  unit_price numeric(8, 2), -- цена за 1 единицу товара
+  cost numeric(8, 2), -- себестоимость покупки
+  rating numeric(3, 2) -- рейтинг покупки, оставленный покупателем
+);
+
 -- измерение времени с гранулярностью минута
 create table sales.dim_time as
 select 
