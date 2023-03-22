@@ -80,6 +80,19 @@
       "formula": null
     },
     {
+      "name": "Payment",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "Ewallet",
+        "Cash",
+        "Credit card"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
       "name": "Quantity",
       "null_percentage": 0,
       "type": "Formula",
@@ -102,10 +115,12 @@
     },
     {
       "name": "Date",
-      "null_percentage": 1,
-      "type": "Formula",
-      "value": "request_params['date']",
-      "formula": null
+      "null_percentage": 0,
+      "type": "Datetime",
+      "min": "03/19/2023",
+      "max": "03/20/2023",
+      "format": "%Y-%m-%d",
+      "formula": "now()"
     },
     {
       "name": "Time",
