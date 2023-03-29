@@ -1,7 +1,6 @@
 from datetime import timedelta
 from datetime import datetime
 
-import airflow
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python_operator import PythonOperator
@@ -15,25 +14,13 @@ from load_valid_to_bq_callable import get_good_rows_load_to_bq
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2023, 3, 19),
-    'email': ['alexey.omelchenko@gmail.com'],
-    'email_on_failure': True,
-    'email_on_retry': False,
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'start_date': datetime(2023, 3, 21),
+    'retries': 0
 }
 
 
+dag = DAG('etl_pipeline_8', start_date=datetime(2023, 3, 21, 6, 0), default_args=default_args, schedule_interval=timedelta(days=1))
 
-dag = DAG('etl_pipeline_4', start_date=datetime(2023, 3, 19), default_args=default_args, schedule_interval=timedelta(days=1))
-
-# очистим данные за сегодня, если такие остались от неудачной предыдущей попытки
-rollback_today = BigQueryOperator(
-    task_id='clean_todays_data_in_tables_if_any',
-    use_legacy_sql=False,
-    sql='call sales.rollback_date("{{ ds }}" )',
-    dag=dag
-)
 
 #загрузка данных по продажам по API
 download_from_mockaroo = BashOperator(
@@ -130,48 +117,16 @@ raw_to_fact = BigQueryOperator(
 move_file = LocalFilesystemToGCSOperator(
     task_id='move_file',
     src='/home/airflow/gcs/data/supermarket_sales.csv',
-    dst='sample-sales-23/archive/{{ ds_nodash }}.csv',
+    dst='archive/{{ ds_nodash }}.csv',
     bucket='sample-sales-23',
     # google_cloud_storage_conn_id='google_cloud_default',
     dag=dag
 )
 
-# Письмо об успехе
-success_email = EmailOperator(
-    task_id='success_email',
-    to=['alexey.omelchenko@gmail.com'],
-    subject='Everything OK',
-    html_content='The ETL pipeline completed successfully.'
-)
-
-# Письмо о неудаче
-failure_email = EmailOperator(
-    task_id='failure_email',
-    to=['alexey.omelchenko@gmail.com'],
-    subject='ETL Task Failed',
-    html_content='The following task failed: {{ task }} '
-)
 
 
-rollback_today >> download_from_mockaroo >> checkpoint_run >> load_valid_to_bq
-load_valid_to_bq >> [sales_branches, sales_cities, sales_product_lines, sales_payment_types, sales_member_statuses, sales_genders]
+download_from_mockaroo >> checkpoint_run >> load_valid_to_bq
+load_valid_to_bq >> sales_branches >> sales_cities >> sales_product_lines >> sales_payment_types
+sales_payment_types >> sales_member_statuses >> sales_genders
+sales_genders >> raw_to_nf >> raw_to_fact >> move_file
 
-sales_branches >> [raw_to_nf, raw_to_fact]
-sales_cities >> [raw_to_nf, raw_to_fact]
-sales_product_lines >> [raw_to_nf, raw_to_fact]
-sales_payment_types >> [raw_to_nf, raw_to_fact]
-sales_member_statuses >> [raw_to_nf, raw_to_fact]
-sales_genders >> [raw_to_nf, raw_to_fact] 
-
-raw_to_nf >> move_file
-raw_to_fact >> move_file
-
-move_file >> success_email
-
-download_from_mockaroo >> failure_email
-sales_branches >> failure_email
-sales_cities >> failure_email
-sales_product_lines >> failure_email
-sales_payment_types >> failure_email
-sales_member_statuses >> failure_email
-sales_genders >> failure_email
