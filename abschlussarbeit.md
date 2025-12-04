@@ -4,11 +4,8 @@
 ## Aufgabe
 
 1. Entwickeln und dokumentieren Sie ETL-Prozesse zum Laden von Daten in ein Data Warehouse mit folgenden Schichten:
-
-- NDS (Normalized Data Warehouse) und DDS (Sternschema);
-
-- Datenqualität (optional, aber von großem Vorteil);
-
+	- NDS (Normalized Data Warehouse) und DDS (Sternschema);
+	- Datenqualität (optional, aber von großem Vorteil);
 2. Erstellen Sie auf Basis des DDS Dashboards in Tableau.
 
 ### Ziel: Dokumentation der ETL-Prozesse anhand des vorgeschlagenen Datensatzes
@@ -22,11 +19,11 @@
 
 ### Empfehlungen zur Durchführung der Arbeit:
 1. ETL-Prozesse können wie folgt durchgeführt werden:
-- mit Pentaho;
-- mit Python (pandas) + SQL;
+	- mit Pentaho;
+	- mit Python (pandas) + SQL;
 2. Datensatz:
-- wurde Ihnen oben im CSV-Format bereitgestellt;
-- Sie können auch Daten von Drittanbieter-APIs beziehen, was von Vorteil ist;
+	- wurde Ihnen oben im CSV-Format bereitgestellt;
+	- Sie können auch Daten von Drittanbieter-APIs beziehen, was von Vorteil ist;
 3. Zusätzlich können Sie die Orchestrierung mit Airflow durchführen;
 4. Optional können Sie eine separate Metadatenebene im Speicher erstellen sowie Dashboards basierend auf den Daten dieser Ebene, die die Anzahl der Uploads und deren Status anzeigen;
 
@@ -38,13 +35,13 @@
 Format: Diese Arbeit ist umfangreich. Wir empfehlen daher die Erstellung von Arbeitsmappen für die Verteidigung: Tableau, ERR-Diagramme für das Warehouse-Schema und KTR/KJB-Dateien mit ETL-Prozessen oder PY-Dateien mit Airflow-DAGs.
 
 ## Lösungsübersicht
-Die Lösung läuft auf den Cloud-Diensten der Google Cloud Platform.
-Google Bucket wird zur Speicherung der Eingabedaten und des Archivs verwendet.
-BigQuery dient zur Speicherung normalisierter Daten und des DSS.
-Dashboards werden mit Superset in der Google Kubernetes Engine erstellt.
-Die Cloud Composer-Orchestrierung basiert auf Airflow.
-Datenqualität: GreatExpectations.
-Die Daten stammen von https://www.mockaroo.com/; das Format entspricht dem Beispiel aus der Abschlussarbeit.
+	Die Lösung läuft auf den Cloud-Diensten der Google Cloud Platform.
+	Google Bucket wird zur Speicherung der Eingabedaten und des Archivs verwendet.
+	BigQuery dient zur Speicherung normalisierter Daten und des DSS.
+	Dashboards werden mit Superset in der Google Kubernetes Engine erstellt.
+	Die Cloud Composer-Orchestrierung basiert auf Airflow.
+	Datenqualität: GreatExpectations.
+	Die Daten stammen von https://www.mockaroo.com/; das Format entspricht dem Beispiel aus der Abschlussarbeit.
 
 ## Datenanalyse
 Die Daten in der bereitgestellten CSV-Datei enthalten Verkaufsinformationen aus drei Städten in Myanmar über mehrere Monate mit insgesamt 1.000 Datensätzen. Alle Werte in allen Spalten sind vollständig ausgefüllt und enthalten keine Lücken oder ungültigen Werte. Die Datei enthält folgende Daten:
@@ -255,3 +252,4 @@ Im Rahmen der Arbeit wurden folgende Schritte durchgeführt:
 - Bildung der Tabellen für Fakten und Dimensionen (DDS)  
 - Entwicklung von ETL-Prozessen zum Laden der Daten in das NDS und zur Erstellung von Data Marts  
 - Erstellung eines Satzes von Metriken und Dashboards auf deren Grundlage
+
