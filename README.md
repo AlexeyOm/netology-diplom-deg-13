@@ -64,7 +64,7 @@ Die Daten in der bereitgestellten CSV-Datei enthalten Verkaufsinformationen aus 
 **gross income** – Gewinn  
 **Rating** – Bewertung  
 
-Alle Werte sind innerhalb der vorgegebenen Bereiche gleichmäßig verteilt. Die Generierung einer ähnlichen Datei und die Simulation der API zum Abrufen einer solchen Datei lassen sich mithilfe des Dienstes mockaroo.com problemlos realisieren. Weitere Details hierzu finden Sie im Abschnitt [Eingabedatengenerierung](https://github.com/AlexeyOm/netology-diplom-deg-13#generierung-der-eingangsdaten).
+Alle Werte sind innerhalb der vorgegebenen Bereiche gleichmäßig verteilt. Die Generierung einer ähnlichen Datei und die Simulation der API zum Abrufen einer solchen Datei lassen sich mithilfe des Dienstes mockaroo.com problemlos realisieren. Weitere Details hierzu finden Sie im Abschnitt [Generierung der Eingangsdaten](https://github.com/AlexeyOm/netology-diplom-deg-13?tab=readme-ov-file#generierung-der-eingangsdaten).
 
 
 ## Normale Datenform
@@ -252,6 +252,7 @@ Im Rahmen der Arbeit wurden folgende Schritte durchgeführt:
 - Bildung der Tabellen für Fakten und Dimensionen (DDS)  
 - Entwicklung von ETL-Prozessen zum Laden der Daten in das NDS und zur Erstellung von Data Marts  
 - Erstellung eines Satzes von Metriken und Dashboards auf deren Grundlage
+
 
 
 
