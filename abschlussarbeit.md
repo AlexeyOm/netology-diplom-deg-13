@@ -46,25 +46,25 @@ Format: Diese Arbeit ist umfangreich. Wir empfehlen daher die Erstellung von Arb
 ## Datenanalyse
 Die Daten in der bereitgestellten CSV-Datei enthalten Verkaufsinformationen aus drei Städten in Myanmar über mehrere Monate mit insgesamt 1.000 Datensätzen. Alle Werte in allen Spalten sind vollständig ausgefüllt und enthalten keine Lücken oder ungültigen Werte. Die Datei enthält folgende Daten:
 
-**Invoice ID** – Rechnungsnummer
-**Branch** – Filiale (einer von drei Werten, kodiert durch einen einzelnen Buchstaben)
-**City** – Ort (einer von drei Orten)
-**Customer type** – Kundentyp (Mitgliedschaft in einem Treueprogramm)
-**Gender** – Geschlecht des Kunden
-**Product line** – Produktgruppe
-**Unit price** – Einzelpreis
-**Quantity** – Anzahl der gekauften Artikel
-**Tax 5%** – 5 % Steuer (berechnet als 5 % des Einzelpreises multipliziert mit der gekauften Menge)
-**Total** – Gesamtbetrag (Summe aus Preis der gekauften Artikel und 5 % Steuer)
-**Date** – Kaufdatum
-**Time** – Kaufzeit
-**Payment** – Zahlungsart
-**cogs** – Einkaufskosten
-**gross margin percentage** – Einkaufsgewinn (fester Wert)
-**gross income** – Gewinn
-**Rating** – Bewertung
+**Invoice ID** – Rechnungsnummer  
+**Branch** – Filiale (einer von drei Werten, kodiert durch einen einzelnen Buchstaben)  
+**City** – Ort (einer von drei Orten)  
+**Customer type** – Kundentyp (Mitgliedschaft in einem Treueprogramm)  
+**Gender** – Geschlecht des Kunden  
+**Product line** – Produktgruppe  
+**Unit price** – Einzelpreis  
+**Quantity** – Anzahl der gekauften Artikel  
+**Tax 5%** – 5 % Steuer (berechnet als 5 % des Einzelpreises multipliziert mit der gekauften Menge)  
+**Total** – Gesamtbetrag (Summe aus Preis der gekauften Artikel und 5 % Steuer)  
+**Date** – Kaufdatum  
+**Time** – Kaufzeit  
+**Payment** – Zahlungsart  
+**cogs** – Einkaufskosten  
+**gross margin percentage** – Einkaufsgewinn (fester Wert)  
+**gross income** – Gewinn  
+**Rating** – Bewertung  
 
-Alle Werte sind innerhalb der vorgegebenen Bereiche gleichmäßig verteilt. Die Generierung einer ähnlichen Datei und die Simulation der API zum Abrufen einer solchen Datei lassen sich mithilfe des Dienstes mockaroo.com problemlos realisieren. Weitere Details hierzu finden Sie im Abschnitt [Eingabedatengenerierung](https://github.com/AlexeyOm/netology-diplom-deg-13#%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D1%85-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85).
+Alle Werte sind innerhalb der vorgegebenen Bereiche gleichmäßig verteilt. Die Generierung einer ähnlichen Datei und die Simulation der API zum Abrufen einer solchen Datei lassen sich mithilfe des Dienstes mockaroo.com problemlos realisieren. Weitere Details hierzu finden Sie im Abschnitt [Eingabedatengenerierung](https://github.com/AlexeyOm/netology-diplom-deg-13#%Generierung%20der%20Eingangsdaten).
 
 
 ## Normale Datenform
@@ -135,7 +135,7 @@ Das Gesamtschema der Tabellen und ihrer Beziehungen ist in der folgenden Abbildu
 ![схема таблиц](https://github.com/AlexeyOm/netology-diplom-deg-13/blob/main/images/netologyds%20-%20netologyds%20-%20sales.png)
 
 ## Generierung der Eingangsdaten
-Die Zusammensetzung der erhaltenen Daten ist im Abschnitt [Datenanalyse](https://github.com/AlexeyOm/netology-diplom-deg-13#%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85) beschrieben.  
+Die Zusammensetzung der erhaltenen Daten ist im Abschnitt [Datenanalyse](https://github.com/AlexeyOm/netology-diplom-deg-13#Datenanalyse) beschrieben.  
 Zur Simulation und Generierung eines größeren Datenvolumens verwende ich den Dienst mockaroo.com, der die Möglichkeit bietet, Daten mit Hilfe von Standardfeldern wie Geschlecht, Datum, Uhrzeit sowie mit Formeln, Zufallszahlengeneratoren und Bedingungsoperatoren zu erzeugen.  
 Die Beschreibung des Datenschemas ist unter folgendem [Link](https://www.mockaroo.com/07cd64d0) verfügbar.  
 
@@ -156,7 +156,7 @@ Die Daten werden über die API im CSV-Format geladen, der Trenner ist ein Komma,
 Die Verarbeitung der Daten erfolgt nach folgendem Ablauf:
 
 1. Laden der Ausgangsdatei – Aufruf des Dienstprogramms **curl** mittels Airflow **BashOperator**  
-2. Überprüfung der Datei mit dem Paket **Great Expectations**, Details im Abschnitt [Datenqualität](https://github.com/AlexeyOm/netology-diplom-deg-13#%D0%BA%D0%B0%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%BE-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85)
+2. Überprüfung der Datei mit dem Paket **Great Expectations**, Details im Abschnitt [Datenqualität](https://github.com/AlexeyOm/netology-diplom-deg-13#Datenqualität)
 3. Herausfiltern ungültiger Daten und Speichern gültiger Daten in der Datenbank im Rohformat – [Python-Skript](https://github.com/AlexeyOm/netology-diplom-deg-13/blob/main/dags/load_valid_to_bq_callable.py)
 4. Schreiben von Informationen über nicht bestandene Validierungen in eine BigQuery-Tabelle zur manuellen Fehleranalyse – Great-Expectations-Plugin, [Python-Skript](https://github.com/AlexeyOm/netology-diplom-deg-13/blob/main/gx/plugins/write_results_to_bq.py)
 5. Prüfung, ob in den qualitätsgeprüften Daten neue Werte für Nachschlagetabellen und Dimensionen enthalten sind, und Ergänzung dieser Tabellen falls nötig – [BigQuery-Stored Procedure](https://github.com/AlexeyOm/netology-diplom-deg-13/blob/main/sql/lookup_update_procedure.sql)
@@ -252,4 +252,5 @@ Im Rahmen der Arbeit wurden folgende Schritte durchgeführt:
 - Bildung der Tabellen für Fakten und Dimensionen (DDS)  
 - Entwicklung von ETL-Prozessen zum Laden der Daten in das NDS und zur Erstellung von Data Marts  
 - Erstellung eines Satzes von Metriken und Dashboards auf deren Grundlage
+
 
